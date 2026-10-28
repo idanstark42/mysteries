@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Volume2, VolumeX, MapPin, Scan, Power, Clock, 
-  AlertTriangle, CheckCircle2, RefreshCw, Search, ShieldAlert
+  AlertTriangle, CheckCircle2, RefreshCw, Search, ShieldAlert, AlertCircle
 } from 'lucide-react';
 
 import L from 'leaflet';
@@ -12,7 +12,7 @@ const SIGNAL_CONFIG = {
   zoom: 15,     // Zoom level (1-18)
   label: "SIGNAL ORIGIN: 32.0853° N, 34.7818° E"
 };
-const CODE = '1989'
+const CODE = '2810'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('sound');
@@ -21,7 +21,7 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['sound', 'lablog', 'anaomalylog', 'scanner', 'barmanstory', 'logbook', 'princelog'].includes(hash)) {
+      if (['sound', 'lablog', 'anomalylog', 'worldline', 'barmanstory', 'logbook', 'princelog'].includes(hash)) {
         setCurrentPage(hash);
       } else if (!hash) {
         window.location.hash = 'sound';
@@ -39,8 +39,8 @@ export default function App() {
       <div className="p-6 flex-grow flex flex-col">
         {currentPage === 'sound' && <Page1 />}
         {currentPage === 'lablog' && <Page2 />}
-        {currentPage === 'anaomalylog' && <Page3 />}
-        {currentPage === 'scanner' && <Page4 />}
+        {currentPage === 'anomalylog' && <Page3 />}
+        {currentPage === 'worldline' && <Page4 />}
         {currentPage === 'barmanstory' && <Page5 />}
         {currentPage === 'logbook' && <Page6 />}
         {currentPage === 'princelog' && <Page7 />}
@@ -113,10 +113,9 @@ function Page1() {
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white mb-2">Signal Beacon</h1>
         <p className="text-xs text-zinc-400">
-          Unidentified high-frequency broadcasting system active. Local biological units converging.
+          Unidentified high-frequency broadcasting system active.
         </p>
       </div>
-
       {statusMsg && (
         <div className="p-3 bg-amber-950/40 border border-amber-800/50 rounded-lg text-amber-300 text-xs">
           {statusMsg}
@@ -165,7 +164,9 @@ function Page1() {
             />
           </div>
         )}
-
+      </div>
+      
+      <div className="space-y-3">
         {/* Button 3 / Form: Turn off all signals */}
         <form onSubmit={handleDeactivate} className="p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2">
           <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wide">
@@ -197,72 +198,90 @@ function Page1() {
 /* ================= PAGE 2: LAB LOG ================= */
 function Page2() {
   return (
-    <div className="space-y-4 font-mono text-xs text-zinc-300">
-      <div className="border-b border-zinc-800 pb-3">
-        <span className="text-[10px] text-emerald-400 tracking-wider uppercase font-bold">LABORATORY LOG ARCHIVE</span>
-        <h1 className="text-xl font-bold text-white font-sans mt-1">Incident Record #409-B</h1>
+    <div className="p-4 space-y-3 leading-relaxed">
+      <div className="text-[11px] text-zinc-500 border-b border-zinc-900 pb-1 flex justify-between">
+        <span>LOG ENTRY #304</span>
+        <span>29/10/2006 20:35</span>
       </div>
-
-      <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800 space-y-3 leading-relaxed">
-        <div className="text-[11px] text-zinc-500 border-b border-zinc-900 pb-1 flex justify-between">
-          <span>LOG ENTRY: 08:14 AM</span>
-          <span>STATION ALPHA</span>
-        </div>
-        <p>
-          <strong className="text-amber-400">System Status:</strong> High-frequency acoustic emitter locked in active loop at 14.2kHz. Interface controls require manual token override.
-        </p>
-        <p>
-          <strong className="text-amber-400">Deactivation Code:</strong> The emergency deactivation phrase was recorded on the technician's coffee receipt during morning shift.
-        </p>
-        <div className="p-3 bg-amber-950/30 border border-amber-800/50 rounded-lg text-amber-200 font-mono text-center my-2">
-          COFFEE CODE: <strong className="text-amber-400 text-sm font-bold select-all">BREW-8080</strong>
-        </div>
-        <p className="text-zinc-400 text-[11px]">
-          Note: Proceed to decrypted location letters for secondary gravity field metrics.
-        </p>
-      </div>
+      <p style={{ textAlign: "justify", fontFamily: "math" }}>
+        The experiment is going on nicely. I managed to draw near 72% of local felines, though the process of imbuing intelligence is still far from successful. But that's okay. I knew this process would be slow going when I decided to take it upon myself.
+        <br/>
+        <br/>
+        The only thing bothering me is that infinitesimal drift. It's causing the beacon sound to resonate, damaging my equipment. I don't think it's dangerous just yet. But it might be. I'm going to look into it tomorrow, but I'll have to be extra careful.
+        <br/>
+        <br/>
+        The local government still doesn't know I'm here. I thought about asking them for help with the drift, but I decided against it, lest they think I'm a foreign agent and eliminate me. People don't believe in independent science these days. Just academy and corporations.
+        <br/>
+        <br/>
+        Just as a precaution, I changed the signal disarming code again. Intellectually, there is no reason to be suspicious. I didn't find any real signs that someone is trying to sabotage my experiment. But if they are trying, this might make it a bit harder on them.
+        <br/>
+        <br/>
+        I used the four digits of Elise's birthday. It was yesterday.
+        <br/>
+        <br/>
+        Happy birthday my love.
+      </p>
     </div>
   );
 }
 
 /* ================= PAGE 3: GRAVITY ANOMALY AGENT ================= */
 function Page3() {
-  return (
-    <div className="space-y-5 flex-grow flex flex-col justify-between">
-      <div className="space-y-3">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-red-950/40 border border-red-800/50 rounded-full text-red-400 text-[10px] font-mono uppercase tracking-wider">
-          <ShieldAlert className="w-3.5 h-3.5" /> Incident Report // Field Agent Clearance
+    return (
+      <div className="p-4 space-y-3 leading-relaxed">
+        <div className="text-[11px] text-zinc-500 border-b border-zinc-900 pb-1 flex justify-between">
+          <span>REQUEST FOR HELP</span>
+          <span>29/10/2026 18:20</span>
         </div>
-        <h1 className="text-2xl font-bold text-white tracking-tight">Gravity Anomaly Case</h1>
-        
-        <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800 space-y-3 text-xs text-zinc-300 leading-relaxed">
-          <p className="text-amber-400/90 font-medium">
-            Agent Operational Briefing:
-          </p>
-          <p>
-            The intercepted encoded letters have been decrypted. Localized gravitational constant fluctuation detected at primary coordinates.
-          </p>
-          <p>
-            The anomaly core has locked into resonance. Standard emergency manual shutdown is disabled. 
-          </p>
-          <p className="text-zinc-400 border-l-2 border-amber-500 pl-3 italic text-[11px]">
-            Protocol Requirement: Access Page 4 and scan two verified barcodes within <strong className="text-amber-300">60 seconds</strong> to undo the anomaly.
-          </p>
-        </div>
+        <p style={{ textAlign: "justify", fontFamily: "math" }}>
+          If you are reading this, it means I failed.
+          <br/><br/>
+          My name is Agent Signet. I was sent here to solve the local gravitational anomaly, marked as Anomaly #8529. This was supposed to be a simple operation of finding the source and disabling it.
+          <br/><br/>
+          As usual, we have safeguards. The link to this guide was to be sent in an encoded message to an impartial agency in case the anomaly took my life.
+          <br/><br/>
+          I am sorry to put this on your shoulders, but this anomaly is dangerous.
+          <br/><br/>
+          The anomaly is a result of a local spacetime singularity. This usually means a local engineer or architect built a structure that breaks the rules of space and time. These anomalies make local buildings impossible to navigate, although some locals gain this ability after a while.
+          <br/><br/>
+          To sever the anomaly, one simply has to "straighten" space, so to speak, by dragging a worldline between two key points. I have found one of the points to be in the basement of building A of the anomaly, and I believe the other point is in the basement of building B, though I could not confirm it.
+          <br/><br/>
+          Use <a href="#worldline" className="text-cyan-400 underline font-semibold hover:text-cyan-300">this link</a> to open the worldline interface. Scan the first key point in building A, then you only have about a minute to get to the second point and scan it as well.
+          <br/><br/>
+          Good luck, and may time be on your side.
+        </p>
       </div>
-    </div>
-  );
+    );
 }
 
-/* ================= PAGE 4: BARCODE SCANNER & TIMER ================= */
+/* ================= PAGE 4: WORLDLINE INTERFACE ================= */
+/* ================= PAGE 4: WORLDLINE INTERFACE ================= */
 function Page4() {
   const [scanState, setScanState] = useState('IDLE'); // IDLE, WAITING_2, SUCCESS, EXPIRED
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(90); // 90 seconds (1.5 minutes)
   const [scannedCodes, setScannedCodes] = useState([]);
-  const [statusMsg, setStatusMsg] = useState('Position target barcode in camera view.');
+  const [statusMsg, setStatusMsg] = useState('Point camera at Key Point A barcode (requires "CODE A")');
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraError, setCameraError] = useState('');
+
   const videoRef = useRef(null);
   const streamRef = useRef(null);
+  const lastScanTimeRef = useRef(0);
 
+  // 1. Load jsQR library dynamically for real-time barcode decoding
+  useEffect(() => {
+    if (!window.jsQR) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+    startCamera();
+
+    return () => stopCamera();
+  }, []);
+
+  // 2. Countdown timer effect for 90-second execution window
   useEffect(() => {
     let timer;
     if (scanState === 'WAITING_2' && timeLeft > 0) {
@@ -271,128 +290,190 @@ function Page4() {
       }, 1000);
     } else if (timeLeft === 0 && scanState === 'WAITING_2') {
       setScanState('EXPIRED');
-      setStatusMsg('SEQUENCE FAILED: 60-second window expired. Reset required.');
+      setStatusMsg('WORLDLINE COLLAPSED: 90-second window expired. Re-anchoring required.');
       stopCamera();
     }
     return () => clearInterval(timer);
   }, [scanState, timeLeft]);
 
+  // 3. Camera initialization
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setCameraError('');
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+      });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
       streamRef.current = stream;
-    } catch (e) {
-      setStatusMsg('Camera feed active or fallback triggers available below.');
+      setCameraActive(true);
+    } catch (err) {
+      setCameraError('Camera access denied or unavailable. Use manual triggers below for testing.');
+      setCameraActive(false);
     }
   };
 
   const stopCamera = () => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     }
+    setCameraActive(false);
   };
 
-  const handleSimulatedScan = (codeName) => {
-    if (scanState === 'IDLE' || scanState === 'EXPIRED') {
-      setScannedCodes([codeName]);
-      setScanState('WAITING_2');
-      setTimeLeft(60);
-      setStatusMsg(`Barcode 1 Accepted [${codeName}]. Scan second barcode before timer ends!`);
-      startCamera();
-    } else if (scanState === 'WAITING_2') {
-      if (scannedCodes.includes(codeName)) {
-        setStatusMsg('Error: Duplicate barcode scanned. Scan a different barcode!');
-        return;
+  // 4. Real-time video frame scanning loop
+  useEffect(() => {
+    let animId;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    const scanFrame = () => {
+      const video = videoRef.current;
+
+      if (video && video.readyState === video.HAVE_ENOUGH_DATA && cameraActive && scanState !== 'SUCCESS' && scanState !== 'EXPIRED') {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        if (window.jsQR) {
+          const code = window.jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: 'dontInvert',
+          });
+
+          if (code && code.data) {
+            const now = Date.now();
+            // Debounce scans (1.5 seconds cooldown between detections)
+            if (now - lastScanTimeRef.current > 1500) {
+              lastScanTimeRef.current = now;
+              processScannedValue(code.data.trim().toUpperCase());
+            }
+          }
+        }
       }
-      setScannedCodes((prev) => [...prev, codeName]);
-      setScanState('SUCCESS');
-      setStatusMsg('ANOMALY UNDONE! Gravitational field stabilized successfully.');
-      stopCamera();
+
+      if (scanState !== 'SUCCESS' && scanState !== 'EXPIRED') {
+        animId = requestAnimationFrame(scanFrame);
+      }
+    };
+
+    if (cameraActive) {
+      animId = requestAnimationFrame(scanFrame);
+    }
+
+    return () => cancelAnimationFrame(animId);
+  }, [cameraActive, scanState, scannedCodes]);
+
+  // 5. Core validation logic for "CODE A" and "CODE B"
+  const processScannedValue = (rawValue) => {
+    if (scanState === 'IDLE' || scanState === 'EXPIRED') {
+      if (rawValue === 'CODE A') {
+        setScannedCodes(['CODE A']);
+        setScanState('WAITING_2');
+        setTimeLeft(90);
+        setStatusMsg('Key Point A Anchored! Run to Building B Basement and scan "CODE B" before timer expires!');
+      } else if (rawValue === 'CODE B') {
+        setStatusMsg('Error: Invalid order! You must scan Key Point A ("CODE A") in Building A first.');
+      } else {
+        setStatusMsg(`Scanned: "${rawValue}" — Invalid key point. Looking for "CODE A".`);
+      }
+    } else if (scanState === 'WAITING_2') {
+      if (rawValue === 'CODE B') {
+        setScannedCodes((prev) => [...prev, 'CODE B']);
+        setScanState('SUCCESS');
+        setStatusMsg('WORLDLINE ANCHORED! Spacetime anomaly #8529 successfully severed.');
+        stopCamera();
+      } else if (rawValue === 'CODE A') {
+        setStatusMsg('Key Point A is already anchored! Get to Building B and scan "CODE B".');
+      } else {
+        setStatusMsg(`Scanned: "${rawValue}" — Invalid key point. Looking for "CODE B".`);
+      }
     }
   };
 
   const handleReset = () => {
     setScanState('IDLE');
     setScannedCodes([]);
-    setTimeLeft(60);
-    setStatusMsg('Position target barcode in camera view.');
+    setTimeLeft(90);
+    setStatusMsg('Point camera at Key Point A barcode (requires "CODE A")');
+    startCamera();
   };
 
   return (
-    <div className="space-y-5 flex-grow flex flex-col justify-between">
+    <div className="space-y-4 flex-grow flex flex-col justify-between font-sans">
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] text-amber-500 font-mono uppercase tracking-widest font-bold">ANOMALY COUNTERMEASURE</span>
+        {/* Header Bar */}
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[10px] text-cyan-400 font-mono uppercase tracking-widest font-bold">
+            ANOMALY #8529 // AGENT SIGNET
+          </span>
           <div className="flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 bg-zinc-900 border border-zinc-800 rounded-lg">
             <Clock className={`w-3.5 h-3.5 ${scanState === 'WAITING_2' ? 'text-amber-400 animate-spin' : 'text-zinc-500'}`} />
-            <span className={timeLeft < 15 ? 'text-red-400 font-bold animate-pulse' : 'text-zinc-200'}>{timeLeft}s</span>
+            <span className={timeLeft < 20 ? 'text-red-400 font-bold animate-pulse' : 'text-zinc-200'}>
+              {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+            </span>
           </div>
         </div>
 
-        {/* Viewfinder / Camera Feed */}
-        <div className="relative w-full aspect-square bg-zinc-950 rounded-2xl border-2 border-zinc-800 overflow-hidden flex flex-col items-center justify-center my-3">
+        <h1 className="text-xl font-bold text-white mb-2">Worldline Interface</h1>
+
+          {/* Live Status Banner */}
+          <div className="inset-x-3 bg-zinc-950/90 border border-zinc-800 backdrop-blur p-2.5 rounded-xl text-[11px] text-center text-zinc-200 font-mono leading-snug z-20 shadow-lg">
+            {statusMsg}
+          </div>
+
+        {/* Live Camera Scanner Viewfinder */}
+        <div className="relative w-full aspect-square bg-zinc-950 rounded-2xl border-2 border-zinc-800 overflow-hidden flex flex-col items-center justify-center my-2">
           <video
             ref={videoRef}
             autoPlay
             playsInline
             muted
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
-          
-          <div className="relative z-10 w-48 h-48 border-2 border-amber-500/60 rounded-xl flex items-center justify-center">
-            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-amber-400 -mt-0.5 -ml-0.5"></div>
-            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-amber-400 -mt-0.5 -mr-0.5"></div>
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-amber-400 -mb-0.5 -ml-0.5"></div>
-            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-amber-400 -mb-0.5 -mr-0.5"></div>
-            <div className="w-full h-0.5 bg-amber-500/40 animate-pulse"></div>
+
+          {/* Scanner Reticle Overlay */}
+          <div className="relative z-10 w-48 h-48 border-2 border-cyan-500/60 rounded-xl flex items-center justify-center">
+            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 -mt-0.5 -ml-0.5"></div>
+            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-400 -mt-0.5 -mr-0.5"></div>
+            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400 -mb-0.5 -ml-0.5"></div>
+            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 -mb-0.5 -mr-0.5"></div>
+            <div className="w-full h-0.5 bg-cyan-400/80 animate-pulse shadow-[0_0_8px_#22d3ee]"></div>
           </div>
 
-          <div className="absolute bottom-3 inset-x-3 bg-zinc-950/90 border border-zinc-800 backdrop-blur p-2.5 rounded-xl text-[11px] text-center text-zinc-300 font-mono">
-            {statusMsg}
-          </div>
+          {cameraError && (
+            <div className="absolute inset-0 bg-zinc-950/90 flex flex-col items-center justify-center p-4 text-center z-20">
+              <AlertCircle className="w-8 h-8 text-amber-500 mb-2" />
+              <p className="text-xs text-zinc-300 font-mono">{cameraError}</p>
+            </div>
+          )}
         </div>
 
+        {/* Anchor Progress Indicators */}
         <div className="grid grid-cols-2 gap-2 my-2">
-          <div className={`p-2.5 rounded-lg border text-center text-xs font-mono flex items-center justify-center gap-1.5 ${scannedCodes[0] ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
-            <CheckCircle2 className="w-3.5 h-3.5" /> Barcode 1
+          <div className={`p-2.5 rounded-lg border text-center text-[11px] font-mono flex items-center justify-center gap-1.5 transition ${scannedCodes.includes('CODE A') ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400 font-bold' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
+            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point A ("CODE A")
           </div>
-          <div className={`p-2.5 rounded-lg border text-center text-xs font-mono flex items-center justify-center gap-1.5 ${scannedCodes[1] ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
-            <CheckCircle2 className="w-3.5 h-3.5" /> Barcode 2
+          <div className={`p-2.5 rounded-lg border text-center text-[11px] font-mono flex items-center justify-center gap-1.5 transition ${scannedCodes.includes('CODE B') ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400 font-bold' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
+            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point B ("CODE B")
           </div>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <div className="text-[10px] text-zinc-500 uppercase font-mono tracking-wide text-center">Camera / Barcode Trigger Controls</div>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => handleSimulatedScan('BARCODE-01')}
-            disabled={scanState === 'SUCCESS'}
-            className="py-2.5 px-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-mono border border-zinc-700 flex items-center justify-center gap-1"
-          >
-            <Scan className="w-3.5 h-3.5 text-amber-400" /> Scan Barcode 1
-          </button>
-          <button
-            onClick={() => handleSimulatedScan('BARCODE-02')}
-            disabled={scanState === 'SUCCESS'}
-            className="py-2.5 px-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-mono border border-zinc-700 flex items-center justify-center gap-1"
-          >
-            <Scan className="w-3.5 h-3.5 text-amber-400" /> Scan Barcode 2
-          </button>
+      {/* Testing Triggers / Reset Controls */}
+      {scanState === 'EXPIRED' && (
+        <div className="space-y-2">
+          <div className="text-[10px] text-zinc-500 uppercase font-mono tracking-wide text-center">Manual Testing Overrides</div>
+            <button
+              onClick={handleReset}
+              className="w-full py-2.5 bg-red-900/40 hover:bg-red-800/60 border border-red-700 text-red-200 text-xs font-bold rounded-lg flex items-center justify-center gap-2 font-mono transition"
+            >
+              <RefreshCw className="w-3.5 h-3.5" /> Re-anchor Worldline
+            </button>
         </div>
-        
-        {scanState === 'EXPIRED' && (
-          <button
-            onClick={handleReset}
-            className="w-full py-2.5 bg-red-900/40 hover:bg-red-800/60 border border-red-700 text-red-200 text-xs font-bold rounded-lg flex items-center justify-center gap-2"
-          >
-            <RefreshCw className="w-3.5 h-3.5" /> Reset Timer
-          </button>
-        )}
-      </div>
+      )}
     </div>
   );
 }
