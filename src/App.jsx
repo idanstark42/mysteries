@@ -255,12 +255,11 @@ function Page3() {
 }
 
 /* ================= PAGE 4: WORLDLINE INTERFACE ================= */
-/* ================= PAGE 4: WORLDLINE INTERFACE ================= */
 function Page4() {
   const [scanState, setScanState] = useState('IDLE'); // IDLE, WAITING_2, SUCCESS, EXPIRED
   const [timeLeft, setTimeLeft] = useState(90); // 90 seconds (1.5 minutes)
   const [scannedCodes, setScannedCodes] = useState([]);
-  const [statusMsg, setStatusMsg] = useState('Point camera at Key Point A barcode (requires "CODE A")');
+  const [statusMsg, setStatusMsg] = useState('Point camera at Key Point A barcode.');
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState('');
 
@@ -373,11 +372,12 @@ function Page4() {
         setScannedCodes(['CODE A']);
         setScanState('WAITING_2');
         setTimeLeft(90);
-        setStatusMsg('Key Point A Anchored! Run to Building B Basement and scan "CODE B" before timer expires!');
+        setStatusMsg('Key Point A Anchored!');
+        setTimeout(() => setStatusMsg('timer'), 1000)
       } else if (rawValue === 'CODE B') {
-        setStatusMsg('Error: Invalid order! You must scan Key Point A ("CODE A") in Building A first.');
+        setStatusMsg('Error: Invalid order! You must scan Key Point A first.');
       } else {
-        setStatusMsg(`Scanned: "${rawValue}" — Invalid key point. Looking for "CODE A".`);
+        setStatusMsg(`Invalid key point.`);
       }
     } else if (scanState === 'WAITING_2') {
       if (rawValue === 'CODE B') {
@@ -386,9 +386,9 @@ function Page4() {
         setStatusMsg('WORLDLINE ANCHORED! Spacetime anomaly #8529 successfully severed.');
         stopCamera();
       } else if (rawValue === 'CODE A') {
-        setStatusMsg('Key Point A is already anchored! Get to Building B and scan "CODE B".');
+        setStatusMsg('Key Point A is already anchored.');
       } else {
-        setStatusMsg(`Scanned: "${rawValue}" — Invalid key point. Looking for "CODE B".`);
+        setStatusMsg(`Invalid key point.`);
       }
     }
   };
@@ -397,7 +397,7 @@ function Page4() {
     setScanState('IDLE');
     setScannedCodes([]);
     setTimeLeft(90);
-    setStatusMsg('Point camera at Key Point A barcode (requires "CODE A")');
+    setStatusMsg('Point camera at Key Point A barcode');
     startCamera();
   };
 
@@ -409,20 +409,9 @@ function Page4() {
           <span className="text-[10px] text-cyan-400 font-mono uppercase tracking-widest font-bold">
             ANOMALY #8529 // AGENT SIGNET
           </span>
-          <div className="flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 bg-zinc-900 border border-zinc-800 rounded-lg">
-            <Clock className={`w-3.5 h-3.5 ${scanState === 'WAITING_2' ? 'text-amber-400 animate-spin' : 'text-zinc-500'}`} />
-            <span className={timeLeft < 20 ? 'text-red-400 font-bold animate-pulse' : 'text-zinc-200'}>
-              {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-            </span>
-          </div>
         </div>
 
         <h1 className="text-xl font-bold text-white mb-2">Worldline Interface</h1>
-
-          {/* Live Status Banner */}
-          <div className="inset-x-3 bg-zinc-950/90 border border-zinc-800 backdrop-blur p-2.5 rounded-xl text-[11px] text-center text-zinc-200 font-mono leading-snug z-20 shadow-lg">
-            {statusMsg}
-          </div>
 
         {/* Live Camera Scanner Viewfinder */}
         <div className="relative w-full aspect-square bg-zinc-950 rounded-2xl border-2 border-zinc-800 overflow-hidden flex flex-col items-center justify-center my-2">
@@ -449,6 +438,16 @@ function Page4() {
               <p className="text-xs text-zinc-300 font-mono">{cameraError}</p>
             </div>
           )}
+        </div>
+
+        {/* Live Status Banner */}
+        <div className="inset-x-3 bg-zinc-950/90 border border-zinc-800 backdrop-blur p-2.5 rounded-xl text-[11px] text-center text-zinc-200 font-mono leading-snug z-20 shadow-lg">
+          {statusMsg === "timer" ? <>
+            <Clock className={`w-3.5 h-3.5 ${scanState === 'WAITING_2' ? 'text-amber-400 animate-spin' : 'text-zinc-500'}`} />
+            <span className={timeLeft < 20 ? 'text-red-400 font-bold animate-pulse' : 'text-zinc-200'}>
+              {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+            </span>
+          </> : statusMsg}
         </div>
 
         {/* Anchor Progress Indicators */}
