@@ -7,11 +7,12 @@ import {
 import L from 'leaflet';
 
 const SIGNAL_CONFIG = {
-  lat: 32.0853, // Adjust target latitude
-  lng: 34.7818, // Adjust target longitude
+  lat: 32.07789691777519, // Adjust target latitude
+  lng: 34.774121609655985, // Adjust target longitude
   zoom: 15,     // Zoom level (1-18)
   label: "SIGNAL ORIGIN: 32.0853° N, 34.7818° E"
 };
+const CODE = '1989'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('sound');
@@ -91,7 +92,7 @@ function Page1() {
   const handleDeactivate = (e) => {
     e.preventDefault();
     const cleaned = coffeeCode.trim().toLowerCase();
-    if (cleaned === 'brew-8080' || cleaned === 'espresso' || cleaned === 'coffee') {
+    if (cleaned === CODE) {
       if (isPlaying && oscRef.current) {
         oscRef.current.stop();
         setIsPlaying(false);
@@ -151,8 +152,7 @@ function Page1() {
           onClick={() => setShowMap(!showMap)}
           className="w-full py-3 px-4 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-xl font-medium text-xs text-white flex items-center justify-between transition"
         >
-          <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-amber-400" /> Scan Area Map</span>
-          <span className="text-[10px] bg-zinc-900 px-2 py-1 rounded text-zinc-400">{showMap ? 'Hide' : 'Show Map'}</span>
+          <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-amber-400" /> {showMap ? 'Hide' : 'Scan Area for signals'}</span>
         </button>
 
         {showMap && (
@@ -169,14 +169,14 @@ function Page1() {
         {/* Button 3 / Form: Turn off all signals */}
         <form onSubmit={handleDeactivate} className="p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2">
           <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wide">
-            Turn Off All Signals (Requires Coffee Code)
+            Turn Off All Signals (Requires Code)
           </label>
           <div className="flex gap-2">
             <input
-              type="text"
+              type="password"
               value={coffeeCode}
               onChange={(e) => setCoffeeCode(e.target.value)}
-              placeholder="Enter lab coffee log code..."
+              placeholder="Enter code..."
               disabled={isDeactivated}
               className="flex-grow bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500 font-mono"
             />
