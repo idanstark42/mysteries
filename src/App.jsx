@@ -4,6 +4,15 @@ import {
   AlertTriangle, CheckCircle2, RefreshCw, Search, ShieldAlert
 } from 'lucide-react';
 
+import L from 'leaflet';
+
+const SIGNAL_CONFIG = {
+  lat: 32.0853, // Adjust target latitude
+  lng: 34.7818, // Adjust target longitude
+  zoom: 15,     // Zoom level (1-18)
+  label: "SIGNAL ORIGIN: 32.0853° N, 34.7818° E"
+};
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('sound');
 
@@ -148,16 +157,12 @@ function Page1() {
 
         {showMap && (
           <div className="p-3 bg-zinc-950 rounded-xl border border-zinc-800 animate-fadeIn">
-            <div className="relative w-full h-36 bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 flex items-center justify-center">
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
-              <div className="absolute w-28 h-28 rounded-full border border-emerald-500/20 animate-ping"></div>
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-4 h-4 bg-emerald-500 rounded-full animate-pulse border-2 border-white shadow-lg shadow-emerald-500/50"></div>
-                <span className="text-[10px] font-mono text-emerald-400 font-bold bg-zinc-950/90 px-2 py-0.5 rounded mt-2 border border-emerald-900">
-                  SIGNAL ORIGIN: 52°51'N 2°09'W
-                </span>
-              </div>
-            </div>
+            <LeafletDarkMap 
+              lat={SIGNAL_CONFIG.lat} 
+              lng={SIGNAL_CONFIG.lng} 
+              zoom={SIGNAL_CONFIG.zoom} 
+              label={SIGNAL_CONFIG.label} 
+            />
           </div>
         )}
 
@@ -527,6 +532,65 @@ function Page7() {
         <div className="text-xs font-bold text-emerald-300">CASE CLOSED // ALL MYSTERIES SOLVED</div>
         <p className="text-[10px] text-emerald-500 font-mono">CONGRATULATIONS, INVESTIGATOR.</p>
       </div>
+    </div>
+  );
+}
+
+function LeafletDarkMap({ lat, lng, zoom, label }) {
+  const mapContainerRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+
+    if (!mapInstanceRef.current) {
+      const map = L.map(mapContainerRef.current, {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([lat, lng], zoom);
+
+      // Esri World Dark Gray Canvas - 100% Free, No API key needed
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16,
+      }).addTo(map);
+
+      // Custom HTML Pulsing Radar Icon
+      const customIcon = L.divIcon({
+        className: 'custom-signal-marker',
+        html: `
+          <div class="relative flex items-center justify-center w-8 h-8 -ml-4 -mt-4">
+            <div class="absolute w-8 h-8 rounded-full bg-emerald-500/40 animate-ping"></div>
+            <div class="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-lg shadow-emerald-500/80 animate-pulse"></div>
+          </div>
+        `,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      L.marker([lat, lng], { icon: customIcon }).addTo(map);
+      mapInstanceRef.current = map;
+    } else {
+      mapInstanceRef.current.setView([lat, lng], zoom);
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [lat, lng, zoom]);
+
+  return (
+    <div className="relative w-full h-44 rounded-xl overflow-hidden border border-zinc-800 shadow-inner">
+      <div ref={mapContainerRef} className="w-full h-full z-0" />
+      {label && (
+        <div className="absolute bottom-2 left-2 right-2 z-10 text-center pointer-events-none">
+          <span className="inline-block text-[10px] font-mono text-emerald-400 font-bold bg-zinc-950/90 px-2.5 py-1 rounded-md border border-emerald-900/80 shadow-md">
+            {label}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
