@@ -453,10 +453,10 @@ function Page4() {
         {/* Anchor Progress Indicators */}
         <div className="grid grid-cols-2 gap-2 my-2">
           <div className={`p-2.5 rounded-lg border text-center text-[11px] font-mono flex items-center justify-center gap-1.5 transition ${scannedCodes.includes('CODE A') ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400 font-bold' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
-            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point A ("CODE A")
+            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point A
           </div>
           <div className={`p-2.5 rounded-lg border text-center text-[11px] font-mono flex items-center justify-center gap-1.5 transition ${scannedCodes.includes('CODE B') ? 'bg-emerald-950/40 border-emerald-800 text-emerald-400 font-bold' : 'bg-zinc-950 border-zinc-800 text-zinc-600'}`}>
-            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point B ("CODE B")
+            <CheckCircle2 className="w-3.5 h-3.5" /> Key Point B
           </div>
         </div>
       </div>
