@@ -479,26 +479,20 @@ function Page4() {
 
 /* ================= PAGE 5: CLUE & TAVERN JOURNAL ================= */
 function Page5() {
-  return (
-    <div className="space-y-4 text-zinc-300 font-sans text-xs">
-      <div className="border-b border-zinc-800 pb-2">
-        <span className="text-[10px] font-mono text-amber-500 uppercase tracking-widest font-bold">LOCATION CLUE // JOURNAL</span>
-        <h1 className="text-xl font-bold text-white mt-0.5">The Old Port Tavern</h1>
-      </div>
-
-      <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800 space-y-3 leading-relaxed">
-        <p className="italic text-zinc-400 border-l-2 border-amber-500 pl-3">
-          "Following the address led to a dimly lit bar. The bartender slid over a worn notebook page."
-        </p>
-        <p>
-          <strong className="text-white">Bartender's Log Entry:</strong> "High-stakes games move through the cellar archive. The ledger records every address involved in the syndicate."
-        </p>
-        <p className="text-zinc-400 text-[11px]">
-          Inspect Page 6 via its QR code at the bar to search the gambling den log book.
+    return (
+      <div className="p-4 space-y-3 leading-relaxed">
+        <div className="text-[11px] text-zinc-500 border-b border-zinc-900 pb-1 flex justify-between">
+          <span>Note for Barman</span>
+        </div>
+        <p style={{ textAlign: "justify", fontFamily: "math" }}>
+          My dear friend, I must leave now. They want to make me king, and this is not something I want. I'm afraid I haven't the time to say proper goodbye.
+          <br/>
+          You must take over The King of Spades. I believe the club will be much better in your hands anyways. I leave you <a href='#logbook' className="text-cyan-400 underline font-semibold hover:text-cyan-300">the ledger</a> with all past bets and games.
+          <br/>
+          If someone tries to find me, tell them I'm happy. If you want to find me, use the ledger. Though I am out of town by now, I will leave you a note in the specified location.
         </p>
       </div>
-    </div>
-  );
+    );
 }
 
 /* ================= PAGE 6: HARD-TO-FIND DENSE LEDGER ================= */
@@ -506,17 +500,188 @@ function Page6() {
   const [query, setQuery] = useState('');
 
   const ledgerEntries = [
-    { id: 'TX-0091', date: '04-12-88', patron: 'V. Petrov', table: 'TB-01', bet: '$4,500', note: 'Standard marker' },
-    { id: 'TX-0104', date: '04-12-88', patron: 'C. Hayes', table: 'TB-04', bet: '$12,000', note: 'Paid in cash' },
-    { id: 'TX-0221', date: '05-12-88', patron: 'Unknown', table: 'TB-02', bet: '$800', note: 'Void transaction' },
-    { id: 'TX-0349', date: '05-12-88', patron: 'L. Thorne', table: 'TB-09', bet: '$50,000', note: 'High roller lounge' },
-    { id: 'TX-0512', date: '06-12-88', patron: 'M. Vance', table: 'TB-03', bet: '$3,100', note: 'Cleared' },
-    { id: 'TX-0688', date: '07-12-88', patron: 'E. Sterling', table: 'TB-01', bet: '$9,400', note: 'Pending audit' },
-    { id: 'TX-0892', date: '08-12-88', patron: "K. O'Connor", table: 'TB-07', bet: '$15,000', note: 'Secured marker' },
-    { id: 'TX-1011', date: '09-12-88', patron: 'Dr. Aris (TARGET)', table: 'TB-12', bet: '$100,000', note: 'FINAL QR LOCATION: 442 Blackwood Street' },
-    { id: 'TX-1140', date: '10-12-88', patron: 'R. Fletcher', table: 'TB-05', bet: '$2,200', note: 'Settled' },
-    { id: 'TX-1299', date: '11-12-88', patron: 'S. Moreau', table: 'TB-08', bet: '$7,800', note: 'Wire transfer' },
-    { id: 'TX-1405', date: '12-12-88', patron: 'J. Mercer', table: 'TB-02', bet: '$19,000', note: 'Collateral held' },
+    { id: 'TX-0001', date: '01-09-26', patron: 'A. Vance', table: 'TB-01', bet: '$1,200', note: 'Cleared in cash' },
+    { id: 'TX-0002', date: '01-09-26', patron: 'H. Kowalski', table: 'TB-03', bet: '$850', note: 'Marker opened' },
+    { id: 'TX-0003', date: '01-09-26', patron: 'M. Sterling', table: 'TB-02', bet: '$3,400', note: 'Wire pending' },
+    { id: 'TX-0004', date: '01-09-26', patron: 'Unknown', table: 'TB-05', bet: '$500', note: 'Cash payment' },
+    { id: 'TX-0005', date: '02-09-26', patron: 'E. Thorne', table: 'TB-01', bet: '$12,500', note: 'VIP Lounge credit' },
+    { id: 'TX-0006', date: '02-09-26', patron: 'R. Chen', table: 'TB-04', bet: '$2,100', note: 'Settled' },
+    { id: 'TX-0007', date: '02-09-26', patron: 'D. Blackwood', table: 'TB-08', bet: '$15,000', note: 'Collateral held' },
+    { id: 'TX-0008', date: '03-09-26', patron: 'J. Mercer', table: 'TB-02', bet: '$4,200', note: 'Marker extended' },
+    { id: 'TX-0009', date: '03-09-26', patron: 'L. Moreau', table: 'TB-06', bet: '$800', note: 'Cleared' },
+    { id: 'TX-0010', date: '03-09-26', patron: 'S. O\'Connor', table: 'TB-01', bet: '$6,700', note: 'Paid in cash' },
+    { id: 'TX-0011', date: '04-09-26', patron: 'V. Petrov', table: 'TB-07', bet: '$9,100', note: 'Pending audit' },
+    { id: 'TX-0012', date: '04-09-26', patron: 'C. Hayes', table: 'TB-03', bet: '$1,500', note: 'IOU signed' },
+    { id: 'TX-0013', date: '04-09-26', patron: 'B. Gallagher', table: 'TB-05', bet: '$22,000', note: 'High stakes room' },
+    { id: 'TX-0014', date: '05-09-26', patron: 'F. Rossi', table: 'TB-09', bet: '$3,800', note: 'Cleared' },
+    { id: 'TX-0015', date: '05-09-26', patron: 'G. Sinclair', table: 'TB-02', bet: '$11,000', note: 'Secured marker' },
+    { id: 'TX-0016', date: '05-09-26', patron: 'K. Tanaka', table: 'TB-10', bet: '$750', note: 'Cash' },
+    { id: 'TX-0017', date: '06-09-26', patron: 'N. Webb', table: 'TB-01', bet: '$5,400', note: 'Partial payment' },
+    { id: 'TX-0018', date: '06-09-26', patron: 'P. Adler', table: 'TB-04', bet: '$18,500', note: 'VIP lounge' },
+    { id: 'TX-0019', date: '06-09-26', patron: 'T. Fletcher', table: 'TB-06', bet: '$2,900', note: 'Settled' },
+    { id: 'TX-0020', date: '07-09-26', patron: 'W. Bishop', table: 'TB-11', bet: '$400', note: 'Void' },
+    { id: 'TX-0021', date: '07-09-26', patron: 'A. Rostov', table: 'TB-03', bet: '$14,200', note: 'Marker cleared' },
+    { id: 'TX-0022', date: '07-09-26', patron: 'C. DuPont', table: 'TB-08', bet: '$8,900', note: 'Wire transfer' },
+    { id: 'TX-0023', date: '08-09-26', patron: 'E. Cross', table: 'TB-02', bet: '$600', note: 'Cleared' },
+    { id: 'TX-0024', date: '08-09-26', patron: 'I. Novikov', table: 'TB-05', bet: '$31,000', note: 'Private room' },
+    { id: 'TX-0025', date: '08-09-26', patron: 'L. Fontaine', table: 'TB-01', bet: '$4,800', note: 'Pending' },
+    { id: 'TX-0027', date: '09-09-26', patron: 'O. Lindqvist', table: 'TB-04', bet: '$9,500', note: 'Marker extended' },
+    { id: 'TX-0028', date: '09-09-26', patron: 'R. Drake', table: 'TB-09', bet: '$16,000', note: 'Jewelry held' },
+    { id: 'TX-0029', date: '10-09-26', patron: 'S. Nakamura', table: 'TB-03', bet: '$2,300', note: 'Settled' },
+    { id: 'TX-0030', date: '10-09-26', patron: 'U. Weiss', table: 'TB-12', bet: '$5,000', note: 'Cleared' },
+    { id: 'TX-0031', date: '10-09-26', patron: 'V. Quinn', table: 'TB-01', bet: '$8,200', note: 'Paid in cash' },
+    { id: 'TX-0032', date: '11-09-26', patron: 'Y. Ivanov', table: 'TB-06', bet: '$1,900', note: 'IOU signed' },
+    { id: 'TX-0033', date: '11-09-26', patron: 'Z. Al-Mansoor', table: 'TB-05', bet: '$45,000', note: 'High roller lounge' },
+    { id: 'TX-0034', date: '11-09-26', patron: 'B. Carlisle', table: 'TB-02', bet: '$3,300', note: 'Settled' },
+    { id: 'TX-0035', date: '12-09-26', patron: 'D. Marsh', table: 'TB-08', bet: '$7,100', note: 'Marker cleared' },
+    { id: 'TX-0036', date: '12-09-26', patron: 'F. Gallagher', table: 'TB-10', bet: '$950', note: 'Cleared' },
+    { id: 'TX-0037', date: '12-09-26', patron: 'H. Thorne', table: 'TB-04', bet: '$13,400', note: 'Pending' },
+    { id: 'TX-0038', date: '13-09-26', patron: 'J. Volkov', table: 'TB-01', bet: '$2,800', note: 'Cash' },
+    { id: 'TX-0039', date: '13-09-26', patron: 'K. Mercer', table: 'TB-03', bet: '$6,200', note: 'Paid in cash' },
+    { id: 'TX-0040', date: '13-09-26', patron: 'M. O\'Brian', table: 'TB-07', bet: '$21,000', note: 'Secured marker' },
+    { id: 'TX-0041', date: '14-09-26', patron: 'N. Santos', table: 'TB-09', bet: '$4,100', note: 'Settled' },
+    { id: 'TX-0042', date: '14-09-26', patron: 'P. Zhang', table: 'TB-02', bet: '$1,700', note: 'Cleared' },
+    { id: 'TX-0043', date: '14-09-26', patron: 'R. Kowalski', table: 'TB-05', bet: '$8,800', note: 'Wire transfer' },
+    { id: 'TX-0044', date: '15-09-26', patron: 'T. Vance', table: 'TB-11', bet: '$10,500', note: 'VIP Suite' },
+    { id: 'TX-0045', date: '15-09-26', patron: 'V. Dubois', table: 'TB-06', bet: '$300', note: 'Void' },
+    { id: 'TX-0046', date: '15-09-26', patron: 'W. Sterling', table: 'TB-08', bet: '$5,900', note: 'Marker extended' },
+    { id: 'TX-0047', date: '16-09-26', patron: 'A. Blackwood', table: 'TB-03', bet: '$17,200', note: 'Collateral held' },
+    { id: 'TX-0048', date: '16-09-26', patron: 'C. Lindqvist', table: 'TB-01', bet: '$2,400', note: 'Cleared' },
+    { id: 'TX-0049', date: '16-09-26', patron: 'E. Petrov', table: 'TB-04', bet: '$900', note: 'Cash' },
+    { id: 'TX-0050', date: '17-09-26', patron: 'G. Hayes', table: 'TB-10', bet: '$6,300', note: 'Paid in cash' },
+    { id: 'TX-0051', date: '17-09-26', patron: 'I. Adler', table: 'TB-02', bet: '$14,000', note: 'High roller lounge' },
+    { id: 'TX-0052', date: '17-09-26', patron: 'K. Fontaine', table: 'TB-07', bet: '$3,600', note: 'Settled' },
+    { id: 'TX-0053', date: '18-09-26', patron: 'L. Rostov', table: 'TB-05', bet: '$1,250', note: 'Cleared' },
+    { id: 'TX-0054', date: '18-09-26', patron: 'N. Chen', table: 'TB-09', bet: '$8,400', note: 'Marker cleared' },
+    { id: 'TX-0055', date: '18-09-26', patron: 'P. Drake', table: 'TB-06', bet: '$27,000', note: 'Private room' },
+    { id: 'TX-0056', date: '19-09-26', patron: 'R. Al-Mansoor', table: 'TB-01', bet: '$5,100', note: 'Pending' },
+    { id: 'TX-0057', date: '19-09-26', patron: 'S. Volkov', table: 'TB-03', bet: '$2,000', note: 'Cash' },
+    { id: 'TX-0058', date: '19-09-26', patron: 'U. Mercer', table: 'TB-08', bet: '$11,500', note: 'Secured marker' },
+    { id: 'TX-0059', date: '20-09-26', patron: 'W. Novikov', table: 'TB-12', bet: '$4,600', note: 'Settled' },
+    { id: 'TX-0060', date: '20-09-26', patron: 'Y. Rossi', table: 'TB-02', bet: '$7,300', note: 'Wire transfer' },
+    { id: 'TX-0061', date: '20-09-26', patron: 'A. Thorne', table: 'TB-04', bet: '$1,800', note: 'Cleared' },
+    { id: 'TX-0062', date: '21-09-26', patron: 'B. Santos', table: 'TB-07', bet: '$19,500', note: 'VIP lounge' },
+    { id: 'TX-0063', date: '21-09-26', patron: 'D. Ivanov', table: 'TB-05', bet: '$650', note: 'Cash' },
+    { id: 'TX-0064', date: '21-09-26', patron: 'F. O\'Connor', table: 'TB-10', bet: '$8,100', note: 'Marker extended' },
+    { id: 'TX-0065', date: '22-09-26', patron: 'H. Dupont', table: 'TB-01', bet: '$3,900', note: 'Cleared' },
+    { id: 'TX-0066', date: '22-09-26', patron: 'J. Adler', table: 'TB-03', bet: '$12,800', note: 'Paid in cash' },
+    { id: 'TX-0067', date: '22-09-26', patron: 'L. Kowalski', table: 'TB-06', bet: '$5,500', note: 'Settled' },
+    { id: 'TX-0068', date: '23-09-26', patron: 'M. Blackwood', table: 'TB-09', bet: '$34,000', note: 'Watch held as collateral' },
+    { id: 'TX-0069', date: '23-09-26', patron: 'N. Petrov', table: 'TB-02', bet: '$2,100', note: 'Cleared' },
+    { id: 'TX-0070', date: '23-09-26', patron: 'P. Sterling', table: 'TB-08', bet: '$6,800', note: 'Pending' },
+    { id: 'TX-0071', date: '24-09-26', patron: 'R. Vance', table: 'TB-04', bet: '$1,400', note: 'Cash' },
+    { id: 'TX-0072', date: '24-09-26', patron: 'T. Chen', table: 'TB-07', bet: '$16,200', note: 'High roller room' },
+    { id: 'TX-0073', date: '24-09-26', patron: 'V. Hayes', table: 'TB-11', bet: '$4,000', note: 'Settled' },
+    { id: 'TX-0074', date: '25-09-26', patron: 'W. Moreau', table: 'TB-05', bet: '$9,300', note: 'Marker cleared' },
+    { id: 'TX-0075', date: '25-09-26', patron: 'A. Sinclair', table: 'TB-01', bet: '$2,700', note: 'Cleared' },
+    { id: 'TX-0076', date: '25-09-26', patron: 'C. Drake', table: 'TB-03', bet: '$22,500', note: 'VIP lounge' },
+    { id: 'TX-0077', date: '26-09-26', patron: 'E. Volkov', table: 'TB-10', bet: '$850', note: 'Cash' },
+    { id: 'TX-0078', date: '26-09-26', patron: 'G. Rostov', table: 'TB-02', bet: '$11,200', note: 'Secured marker' },
+    { id: 'TX-0079', date: '26-09-26', patron: 'I. Thorne', table: 'TB-06', bet: '$5,000', note: 'Paid in cash' },
+    { id: 'TX-0080', date: '27-09-26', patron: 'K. DuPont', table: 'TB-08', bet: '$3,100', note: 'Settled' },
+    { id: 'TX-0081', date: '27-09-26', patron: 'L. Adler', table: 'TB-04', bet: '$15,800', note: 'Wire transfer' },
+    { id: 'TX-0082', date: '27-09-26', patron: 'N. Kowalski', table: 'TB-12', bet: '$700', note: 'Cleared' },
+    { id: 'TX-0083', date: '28-09-26', patron: 'P. Al-Mansoor', table: 'TB-01', bet: '$41,000', note: 'Private suite' },
+    { id: 'TX-0084', date: '28-09-26', patron: 'R. Mercer', table: 'TB-07', bet: '$2,600', note: 'Pending' },
+    { id: 'TX-0085', date: '28-09-26', patron: 'S. Petrov', table: 'TB-05', bet: '$8,400', note: 'Marker extended' },
+    { id: 'TX-0086', date: '29-09-26', patron: 'U. Hayes', table: 'TB-03', bet: '$1,900', note: 'Cleared' },
+    { id: 'TX-0087', date: '29-09-26', patron: 'W. Fontaine', table: 'TB-09', bet: '$13,100', note: 'Paid in cash' },
+    { id: 'TX-0026', date: '29-09-26', patron: 'Y. Blackwood', table: 'TB-02', bet: '$6,400', note: 'Settled' },
+    { id: 'TX-0089', date: '30-09-26', patron: 'A. Drake', table: 'TB-06', bet: '$3,700', note: 'Cash' },
+    { id: 'TX-0090', date: '30-09-26', patron: 'C. Volkov', table: 'TB-08', bet: '$28,000', note: 'High stakes lounge' },
+    { id: 'TX-0091', date: '04-10-26', patron: 'V. Petrov', table: 'TB-01', bet: '$4,500', note: 'Standard marker' },
+    { id: 'TX-0092', date: '04-10-26', patron: 'E. Chen', table: 'TB-04', bet: '$1,100', note: 'Cleared' },
+    { id: 'TX-0093', date: '04-10-26', patron: 'G. Sterling', table: 'TB-07', bet: '$9,800', note: 'Marker cleared' },
+    { id: 'TX-0094', date: '05-10-26', patron: 'I. Vance', table: 'TB-02', bet: '$17,500', note: 'Secured marker' },
+    { id: 'TX-0095', date: '05-10-26', patron: 'K. O\'Brian', table: 'TB-05', bet: '$2,300', note: 'Paid in cash' },
+    { id: 'TX-0096', date: '05-10-26', patron: 'L. Rostov', table: 'TB-10', bet: '$5,600', note: 'Settled' },
+    { id: 'TX-0097', date: '06-10-26', patron: 'N. Thorne', table: 'TB-03', bet: '$800', note: 'Cash' },
+    { id: 'TX-0098', date: '06-10-26', patron: 'P. Kowalski', table: 'TB-06', bet: '$12,100', note: 'Wire transfer' },
+    { id: 'TX-0099', date: '06-10-26', patron: 'R. Adler', table: 'TB-09', bet: '$4,400', note: 'Cleared' },
+    { id: 'TX-0100', date: '07-10-26', patron: 'S. DuPont', table: 'TB-01', bet: '$25,000', note: 'VIP lounge' },
+    { id: 'TX-0101', date: '07-10-26', patron: 'U. Mercer', table: 'TB-08', bet: '$3,200', note: 'Pending' },
+    { id: 'TX-0102', date: '07-10-26', patron: 'W. Santos', table: 'TB-05', bet: '$6,900', note: 'Marker extended' },
+    { id: 'TX-0103', date: '08-10-26', patron: 'A. Ivanov', table: 'TB-02', bet: '$1,500', note: 'Cleared' },
+    { id: 'TX-0104', date: '04-10-26', patron: 'C. Hayes', table: 'TB-04', bet: '$12,000', note: 'Paid in cash' },
+    { id: 'TX-0105', date: '08-10-26', patron: 'E. Drake', table: 'TB-07', bet: '$18,900', note: 'Collateral held' },
+    { id: 'TX-0106', date: '08-10-26', patron: 'G. Al-Mansoor', table: 'TB-11', bet: '$52,000', note: 'High roller lounge' },
+    { id: 'TX-0107', date: '09-10-26', patron: 'I. Fontaine', table: 'TB-03', bet: '$2,800', note: 'Settled' },
+    { id: 'TX-0108', date: '09-10-26', patron: 'K. Blackwood', table: 'TB-06', bet: '$7,400', note: 'Paid in cash' },
+    { id: 'TX-0109', date: '09-10-26', patron: 'L. Volkov', table: 'TB-10', bet: '$950', note: 'Cash' },
+    { id: 'TX-0110', date: '09-10-26', patron: 'N. Vance', table: 'TB-01', bet: '$14,300', note: 'Marker cleared' },
+    { id: 'TX-0221', date: '05-10-26', patron: 'Unknown', table: 'TB-02', bet: '$800', note: 'Void transaction' },
+    { id: 'TX-0349', date: '05-10-26', patron: 'L. Thorne', table: 'TB-09', bet: '$50,000', note: 'High roller lounge' },
+    { id: 'TX-0512', date: '06-10-26', patron: 'M. Vance', table: 'TB-03', bet: '$3,100', note: 'Cleared' },
+    { id: 'TX-0626', date: '07-10-26', patron: 'E. Sterling', table: 'TB-01', bet: '$9,400', note: 'Pending audit' },
+    { id: 'TX-0892', date: '08-10-26', patron: 'K. O\'Connor', table: 'TB-07', bet: '$15,000', note: 'Secured marker' },
+    
+    // ================= TARGET CLUE RECORD =================
+    { id: 'TX-1011', date: '09-10-26', patron: 'Prince Reincore', table: 'TB-12', bet: '$100,000', note: 'Frug 28, TLV' },
+    // =====================================================
+
+    { id: 'TX-1140', date: '10-10-26', patron: 'R. Fletcher', table: 'TB-05', bet: '$2,200', note: 'Settled' },
+    { id: 'TX-1141', date: '10-10-26', patron: 'P. Chen', table: 'TB-08', bet: '$6,100', note: 'Cleared' },
+    { id: 'TX-1142', date: '10-10-26', patron: 'S. Kowalski', table: 'TB-02', bet: '$11,800', note: 'Paid in cash' },
+    { id: 'TX-1143', date: '11-10-26', patron: 'T. Petrov', table: 'TB-04', bet: '$3,500', note: 'Marker extended' },
+    { id: 'TX-1144', date: '11-10-26', patron: 'V. Sterling', table: 'TB-07', bet: '$19,000', note: 'VIP Lounge' },
+    { id: 'TX-1145', date: '11-10-26', patron: 'W. Adler', table: 'TB-01', bet: '$700', note: 'Cash' },
+    { id: 'TX-1146', date: '12-10-26', patron: 'A. O\'Brian', table: 'TB-06', bet: '$8,900', note: 'Settled' },
+    { id: 'TX-1147', date: '12-10-26', patron: 'C. Rostov', table: 'TB-09', bet: '$24,000', note: 'Private room' },
+    { id: 'TX-1148', date: '12-10-26', patron: 'E. Mercer', table: 'TB-03', bet: '$2,100', note: 'Cleared' },
+    { id: 'TX-1149', date: '13-10-26', patron: 'G. Fontaine', table: 'TB-05', bet: '$13,700', note: 'Secured marker' },
+    { id: 'TX-1150', date: '13-10-26', patron: 'I. Blackwood', table: 'TB-11', bet: '$4,200', note: 'Paid in cash' },
+    { id: 'TX-1151', date: '13-10-26', patron: 'K. Drake', table: 'TB-08', bet: '$1,600', note: 'Settled' },
+    { id: 'TX-1152', date: '14-10-26', patron: 'L. Al-Mansoor', table: 'TB-02', bet: '$38,000', note: 'High roller suite' },
+    { id: 'TX-1153', date: '14-10-26', patron: 'N. Volkov', table: 'TB-04', bet: '$5,300', note: 'Pending' },
+    { id: 'TX-1154', date: '14-10-26', patron: 'P. Hayes', table: 'TB-10', bet: '$9,100', note: 'Marker cleared' },
+    { id: 'TX-1155', date: '15-10-26', patron: 'R. Vance', table: 'TB-01', bet: '$2,900', note: 'Cleared' },
+    { id: 'TX-1156', date: '15-10-26', patron: 'S. Thorne', table: 'TB-07', bet: '$16,500', note: 'Wire transfer' },
+    { id: 'TX-1157', date: '15-10-26', patron: 'U. Chen', table: 'TB-03', bet: '$850', note: 'Cash' },
+    { id: 'TX-1158', date: '16-10-26', patron: 'W. Kowalski', table: 'TB-06', bet: '$10,200', note: 'Settled' },
+    { id: 'TX-1159', date: '16-10-26', patron: 'Y. Sterling', table: 'TB-12', bet: '$3,800', note: 'Paid in cash' },
+    { id: 'TX-1160', date: '16-10-26', patron: 'A. Petrov', table: 'TB-05', bet: '$7,600', note: 'Marker extended' },
+    { id: 'TX-1161', date: '17-10-26', patron: 'C. Adler', table: 'TB-08', bet: '$21,500', note: 'VIP lounge' },
+    { id: 'TX-1162', date: '17-10-26', patron: 'E. DuPont', table: 'TB-02', bet: '$1,300', note: 'Cleared' },
+    { id: 'TX-1163', date: '17-10-26', patron: 'G. Rostov', table: 'TB-09', bet: '$14,000', note: 'Collateral held' },
+    { id: 'TX-1164', date: '18-10-26', patron: 'I. O\'Brian', table: 'TB-04', bet: '$4,700', note: 'Settled' },
+    { id: 'TX-1165', date: '18-10-26', patron: 'K. Mercer', table: 'TB-01', bet: '$9,900', note: 'Paid in cash' },
+    { id: 'TX-1166', date: '18-10-26', patron: 'L. Fontaine', table: 'TB-07', bet: '$2,400', note: 'Cleared' },
+    { id: 'TX-1167', date: '19-10-26', patron: 'N. Blackwood', table: 'TB-10', bet: '$29,000', note: 'High stakes lounge' },
+    { id: 'TX-1168', date: '19-10-26', patron: 'P. Drake', table: 'TB-03', bet: '$600', note: 'Cash' },
+    { id: 'TX-1169', date: '19-10-26', patron: 'R. Al-Mansoor', table: 'TB-06', bet: '$47,000', note: 'Private room' },
+    { id: 'TX-1170', date: '20-10-26', patron: 'S. Volkov', table: 'TB-02', bet: '$3,100', note: 'Pending' },
+    { id: 'TX-1171', date: '20-10-26', patron: 'U. Vance', table: 'TB-05', bet: '$8,200', note: 'Marker cleared' },
+    { id: 'TX-1172', date: '20-10-26', patron: 'W. Hayes', table: 'TB-08', bet: '$12,600', note: 'Settled' },
+    { id: 'TX-1173', date: '21-10-26', patron: 'Y. Thorne', table: 'TB-11', bet: '$1,800', note: 'Cleared' },
+    { id: 'TX-1174', date: '21-10-26', patron: 'A. Chen', table: 'TB-01', bet: '$18,100', note: 'Paid in cash' },
+    { id: 'TX-1175', date: '21-10-26', patron: 'C. Kowalski', table: 'TB-04', bet: '$5,900', note: 'Marker extended' },
+    { id: 'TX-1176', date: '22-10-26', patron: 'E. Sterling', table: 'TB-07', bet: '$2,500', note: 'Settled' },
+    { id: 'TX-1177', date: '22-10-26', patron: 'G. Petrov', table: 'TB-03', bet: '$11,400', note: 'Secured marker' },
+    { id: 'TX-1178', date: '22-10-26', patron: 'I. Adler', table: 'TB-09', bet: '$7,200', note: 'Cleared' },
+    { id: 'TX-1179', date: '23-10-26', patron: 'K. DuPont', table: 'TB-02', bet: '$33,000', note: 'VIP Suite' },
+    { id: 'TX-1180', date: '23-10-26', patron: 'L. Rostov', table: 'TB-06', bet: '$900', note: 'Cash' },
+    { id: 'TX-1181', date: '23-10-26', patron: 'N. O\'Brian', table: 'TB-10', bet: '$4,300', note: 'Paid in cash' },
+    { id: 'TX-1182', date: '24-10-26', patron: 'P. Mercer', table: 'TB-05', bet: '$15,200', note: 'Wire transfer' },
+    { id: 'TX-1183', date: '24-10-26', patron: 'R. Fontaine', table: 'TB-08', bet: '$2,700', note: 'Cleared' },
+    { id: 'TX-1184', date: '24-10-26', patron: 'S. Blackwood', table: 'TB-01', bet: '$8,600', note: 'Settled' },
+    { id: 'TX-1185', date: '25-10-26', patron: 'U. Drake', table: 'TB-04', bet: '$20,000', note: 'High roller lounge' },
+    { id: 'TX-1186', date: '25-10-26', patron: 'W. Al-Mansoor', table: 'TB-12', bet: '$62,000', note: 'Private room' },
+    { id: 'TX-1187', date: '25-10-26', patron: 'Y. Volkov', table: 'TB-03', bet: '$1,100', note: 'Cash' },
+    { id: 'TX-1126', date: '26-10-26', patron: 'A. Vance', table: 'TB-07', bet: '$6,400', note: 'Pending' },
+    { id: 'TX-1189', date: '26-10-26', patron: 'C. Hayes', table: 'TB-02', bet: '$13,900', note: 'Paid in cash' },
+    { id: 'TX-1190', date: '26-10-26', patron: 'E. Thorne', table: 'TB-06', bet: '$3,200', note: 'Cleared' },
+    { id: 'TX-1191', date: '27-10-26', patron: 'G. Chen', table: 'TB-09', bet: '$10,800', note: 'Marker cleared' },
+    { id: 'TX-1192', date: '27-10-26', patron: 'I. Kowalski', table: 'TB-01', bet: '$1,700', note: 'Settled' },
+    { id: 'TX-1193', date: '27-10-26', patron: 'K. Sterling', table: 'TB-05', bet: '$26,000', note: 'VIP lounge' },
+    { id: 'TX-1194', date: '28-10-26', patron: 'L. Petrov', table: 'TB-08', bet: '$4,900', note: 'Cleared' },
+    { id: 'TX-1195', date: '28-10-26', patron: 'N. Adler', table: 'TB-03', bet: '$8,100', note: 'Paid in cash' },
+    { id: 'TX-1196', date: '28-10-26', patron: 'P. DuPont', table: 'TB-10', bet: '$17,300', note: 'Secured marker' },
+    { id: 'TX-1197', date: '29-10-26', patron: 'R. Rostov', table: 'TB-02', bet: '$500', note: 'Cash' },
+    { id: 'TX-1198', date: '29-10-26', patron: 'S. O\'Brian', table: 'TB-04', bet: '$11,100', note: 'Wire transfer' },
+    { id: 'TX-1199', date: '29-10-26', patron: 'U. Mercer', table: 'TB-07', bet: '$3,600', note: 'Settled' },
+    { id: 'TX-1200', date: '29-10-26', patron: 'W. Fontaine', table: 'TB-01', bet: '$14,800', note: 'Marker cleared' },
+    { id: 'TX-1299', date: '11-10-26', patron: 'S. Moreau', table: 'TB-08', bet: '$7,800', note: 'Wire transfer' },
+    { id: 'TX-1405', date: '12-10-26', patron: 'J. Mercer', table: 'TB-02', bet: '$19,000', note: 'Collateral held' }
   ];
 
   const filtered = ledgerEntries.filter(
@@ -531,10 +696,10 @@ function Page6() {
     <div className="space-y-3 font-mono text-xs flex-grow flex flex-col">
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">ARCHIVE LEDGER // DENSE RECORD</span>
+          <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">The King of Spades gambling den</span>
           <span className="text-[10px] bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded font-mono">{filtered.length} RECORDS</span>
         </div>
-        <h1 className="text-lg font-bold text-white font-sans">Gambling Den Log Book</h1>
+        <h1 className="text-lg font-bold text-white font-sans">Ledger</h1>
       </div>
 
       <div className="relative">
@@ -548,7 +713,7 @@ function Page6() {
         />
       </div>
 
-      <div className="flex-grow border border-zinc-800 bg-zinc-950 rounded-lg overflow-x-auto overflow-y-auto max-h-[50vh]">
+      <div className="flex-grow border border-zinc-800 bg-zinc-950 rounded-lg overflow-x-auto overflow-y-auto max-w-[80vw]">
         <table className="w-full text-left border-collapse text-[10px] font-mono whitespace-nowrap">
           <thead className="bg-zinc-900 border-b border-zinc-800 sticky top-0 text-zinc-400">
             <tr>
@@ -563,7 +728,7 @@ function Page6() {
             {filtered.map((item) => (
               <tr 
                 key={item.id} 
-                className={`hover:bg-amber-950/20 transition ${item.id === 'TX-1011' ? 'bg-amber-950/40 text-amber-300 font-bold' : 'text-zinc-300'}`}
+                className={`hover:bg-amber-950/20 transition text-zinc-300`}
               >
                 <td className="p-2 border-r border-zinc-900 font-bold text-amber-400">{item.id}</td>
                 <td className="p-2 border-r border-zinc-900 text-zinc-500">{item.date}</td>
@@ -575,45 +740,30 @@ function Page6() {
           </tbody>
         </table>
       </div>
-
-      <p className="text-[10px] text-zinc-500 text-center italic">
-        * Search the log book to find the final target address with QR for Page 7.
-      </p>
     </div>
   );
 }
 
-/* ================= PAGE 7: FINAL RESOLUTION JOURNAL ================= */
+/* ================= PAGE 5: CLUE & TAVERN JOURNAL ================= */
 function Page7() {
-  return (
-    <div className="space-y-4 text-xs text-zinc-300 font-sans">
-      <div className="border-b border-zinc-800 pb-2">
-        <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold">CASE FILE DECLASSIFIED</span>
-        <h1 className="text-xl font-bold text-white mt-1">Final Master Journal</h1>
-      </div>
-
-      <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800 space-y-3 leading-relaxed">
-        <p className="text-emerald-400 font-semibold text-sm">
-          Everything Explained:
-        </p>
-        <p>
-          1. <strong className="text-white">Mystery 1 (Cat Signal):</strong> The high-frequency 14.2 kHz feline attractor tone was set up to draw stray animals to mask local lab equipment signatures.
-        </p>
-        <p>
-          2. <strong className="text-white">Mystery 2 (Gravity Anomaly):</strong> Intercepted coded letters led to the anomaly grid, which was neutralized by syncing the dual 60-second barcode scan.
-        </p>
-        <p>
-          3. <strong className="text-white">Mystery 3 (Gambling Syndicate):</strong> The tavern clue and dense log book search uncovered 442 Blackwood Street, exposing the mastermind behind all three anomalies.
+    return (
+      <div className="p-4 space-y-3 leading-relaxed">
+        <div className="text-[11px] text-zinc-500 border-b border-zinc-900 pb-1 flex justify-between">
+          <span>Note for Barman #2</span>
+        </div>
+        <p style={{ textAlign: "justify", fontFamily: "math" }}>
+          I managed it.
+          <br/>
+          I am in the wind, and they cannot find me where I am.
+          <br/>
+          Even if they knew, I am deep where they cannot get to me.
+          <br/><br/>
+          No one from Florin would dare to go to our nation's sworn enemy state.
+          <br/><br/>
+          Thank you for everything, my friend. May I see you again someday.
         </p>
       </div>
-
-      <div className="p-4 bg-emerald-950/30 border border-emerald-800/40 rounded-xl text-center space-y-1">
-        <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-1" />
-        <div className="text-xs font-bold text-emerald-300">CASE CLOSED // ALL MYSTERIES SOLVED</div>
-        <p className="text-[10px] text-emerald-500 font-mono">CONGRATULATIONS, INVESTIGATOR.</p>
-      </div>
-    </div>
-  );
+    );
 }
 
 function LeafletDarkMap({ lat, lng, zoom, label }) {
