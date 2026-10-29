@@ -752,9 +752,9 @@ function Page7() {
           <span>Note for Barman #2</span>
         </div>
         <p style={{ textAlign: "justify", fontFamily: "math" }}>
-          I managed it.
+          I did it.
           <br/>
-          I am in the wind, and they cannot find me where I am.
+          I got to a place where they cannot find me. Maybe now, I can be free.
           <br/>
           Even if they knew, I am deep where they cannot get to me.
           <br/><br/>
